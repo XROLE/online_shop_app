@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:online_shop_app/data/bake_itme/model/bake_item_model.dart';
 
 class GridCard extends StatelessWidget {
-  const GridCard({Key? key}) : super(key: key);
+  final BakeItemModel item;
+  const GridCard({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0xFFe8e8e8),
-            blurRadius: 5.0,
-            offset: Offset(0, 5)
-          )
-        ],
-      borderRadius: BorderRadius.circular(20)),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(color: Color(0xFFe8e8e8), blurRadius: 5.0, offset: Offset(0, 5))
+          ],
+          borderRadius: BorderRadius.circular(20)),
       child: Column(
         children: [
           Expanded(
@@ -25,14 +23,14 @@ class GridCard extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(20))),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                        child: Image.network(
-                        "https://1.bp.blogspot.com/-sRYWu5e-cec/WUeTDTNXvOI/AAAAAAAABxI/EOmUlVnqpj0TqS_cqWxSvUDUXvo3q0NEgCLcBGAs/s320/DSC00255.JPG",
-                        fit: BoxFit.cover,
-                      ),
-                        ),
+                      borderRadius:  BorderRadius.vertical(top: Radius.circular(20))),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                    child: Image.network(
+                      item.imageUri,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 const Positioned(
                   top: 10,
@@ -54,14 +52,14 @@ class GridCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  "Wellenreiter",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  item.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 Text(
-                  "€0.70",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  "€" + item.price.toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
               ],
             ),
