@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_shop_app/presentation/details/details_page.dart';
 import 'package:online_shop_app/presentation/home/cubit/home_cubit.dart';
 import 'package:online_shop_app/presentation/home/widgets/custom_app_bar.dart';
 import 'package:online_shop_app/presentation/home/widgets/grid_card.dart';
@@ -13,8 +14,8 @@ class HomePage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black.withOpacity(.8)),
-          title: CustomAppBar(
-            onTap: () {},
+          title: const CustomAppBar(
+            isHomePage: true,
             title: 'Brötchen',
           ),
         ),
@@ -24,14 +25,27 @@ class HomePage extends StatelessWidget {
             builder: (innerContext, state) {
               final state = innerContext.watch<HomeCubit>().state;
               return state.maybeWhen(loading: () {
-                return const Center(child:  CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }, loaded: (items) {
                 return GridView.count(
                     childAspectRatio: 4 / 5,
                     crossAxisSpacing: 20,
                     mainAxisSpacing: 20,
                     crossAxisCount: 2,
-                    children: List.generate(items.length, (index) => GridCard(item: items[index],)));
+                    children: List.generate(
+                        items.length,
+                        (index) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailsPage(
+                                            item: items[index],
+                                          )));
+                            },
+                            child: GridCard(
+                              item: items[index],
+                            ))));
               }, orElse: () {
                 return const Center(
                   child: Text("This is meant to show bakee items"),
