@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:online_shop_app/data/bake_itme/repository/baker_item_repo.dart';
 import 'package:online_shop_app/data/core/di/service_locator.dart';
+import 'package:online_shop_app/presentation/home/cubit/home_cubit.dart';
 import 'package:online_shop_app/presentation/home/home.dart';
 
 void main() async {
@@ -13,13 +16,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Online shop app',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    BakeItemRepo _bakeItemRepo = sl.get<BakeItemRepo>();
+
+    return BlocProvider(
+      create: (context) => HomeCubit(_bakeItemRepo),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Online shop app',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const HomePage(),
       ),
-      home: const HomePage(),
     );
   }
 }
