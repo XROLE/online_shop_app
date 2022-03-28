@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:online_shop_app/data/bake_itme/repository/baker_item_repo.dart';
 import 'package:online_shop_app/data/core/di/service_locator.dart';
+import 'package:online_shop_app/presentation/cart/cubit/cart_cubit.dart';
 import 'package:online_shop_app/presentation/home/cubit/home_cubit.dart';
 import 'package:online_shop_app/presentation/home/home.dart';
 
@@ -18,8 +19,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     BakeItemRepo _bakeItemRepo = sl.get<BakeItemRepo>();
 
-    return BlocProvider(
-      create: (context) => HomeCubit(_bakeItemRepo),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeCubit(_bakeItemRepo),
+        ),
+        BlocProvider(
+          create: (context) => CartCubit(),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Online shop app',
